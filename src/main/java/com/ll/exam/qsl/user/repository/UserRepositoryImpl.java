@@ -29,15 +29,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @Override
     public int getQslCount() {
-        /*
-        SELECT *
-        FROM site_user
-        WHERE id = 1
-        */
 
-        return jpaQueryFactory
-                .select(siteUser)
+        long count = jpaQueryFactory
+                .select(siteUser.count())
                 .from(siteUser)
-                .fetch().size();
+                .fetchOne();
+        return (int) count;
     }
 }
