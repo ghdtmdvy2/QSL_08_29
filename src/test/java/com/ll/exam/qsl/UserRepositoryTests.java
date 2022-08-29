@@ -65,7 +65,7 @@ class UserRepositoryTests {
     @Test
     @DisplayName("모든 회원의 수")
     void t4() {
-        int count = userRepository.getQslCount();
+        long count = userRepository.getQslCount();
         System.out.println("count = " + count);
         assertThat(count).isGreaterThan(0);
     }
