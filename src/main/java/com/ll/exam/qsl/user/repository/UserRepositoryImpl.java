@@ -1,6 +1,5 @@
 package com.ll.exam.qsl.user.repository;
 
-import com.ll.exam.qsl.interestKeyword.entity.InterestKeyword;
 import com.ll.exam.qsl.interestKeyword.entity.QInterestKeyword;
 import com.ll.exam.qsl.user.entity.SiteUser;
 import com.querydsl.core.types.Order;
@@ -15,10 +14,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
-import java.util.Set;
 
 import static com.ll.exam.qsl.interestKeyword.entity.QInterestKeyword.interestKeyword;
 import static com.ll.exam.qsl.user.entity.QSiteUser.siteUser;
+
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
@@ -102,25 +101,22 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
 
     @Override
-    public List<SiteUser> getQslUsersByInterestKeyword(String kw) {
-
-        QInterestKeyword IK = new QInterestKeyword(kw);
-
-        List<SiteUser> fetch = jpaQueryFactory
+    public List<SiteUser> getQslUsersByInterestKeyword(String keywordContent) {
+        /*
+       SELECT SU.*
+       FROM site_user AS SU
+       INNER JOIN site_user_interest_keywords AS SUIK
+       ON SU.id = SUIK.site_user_id
+       INNER JOIN interest_keyword AS IK
+       ON IK.content = SUIK.interest_keywords_content
+       WHERE IK.content = "축구";
+       */
+        return jpaQueryFactory
                 .selectFrom(siteUser)
-                .innerJoin(siteUser.interestKeywords)
+                .innerJoin(siteUser.interestKeywords, interestKeyword)
                 .where(
-                        interestKeyword.content.eq(kw)
+                        interestKeyword.content.eq(keywordContent)
                 )
                 .fetch();
-
-//        SELECT SU.*
-//        FROM site_user AS SU
-//        INNER JOIN site_user_interest_keywords AS SUIK
-//        ON SU.id = SUIK.site_user_id
-//        INNER JOIN interest_keyword AS IK
-//        ON IK.content = SUIK.interest_keywords_content
-//        WHERE IK.content = "축구";
-        return fetch;
     }
 }
