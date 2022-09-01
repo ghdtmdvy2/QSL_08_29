@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @Configuration
@@ -29,7 +30,13 @@ public class TestInitData {
                     .email("user2@test.com")
                     .build();
 
-            List<SiteUser> siteUsers = userRepository.saveAll(Arrays.asList(u1, u2));
+            u1.addInterestKeywordContent("축구");
+            u1.addInterestKeywordContent("농구");
+
+            u2.addInterestKeywordContent("클라이밍");
+            u2.addInterestKeywordContent("마라톤");
+
+            userRepository.saveAll(Arrays.asList(u1, u2));
         };
     }
 }
