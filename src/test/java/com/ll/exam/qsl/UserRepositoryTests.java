@@ -242,12 +242,11 @@ class UserRepositoryTests {
 
     @Test
     @DisplayName("u2=아이돌, u1=팬 u1은 u2의 팔로워 이다.")
-    @Rollback(false)
     void t13() {
         SiteUser u1 = userRepository.getQslUser(1L);
         SiteUser u2 = userRepository.getQslUser(2L);
 
-        u2.follow(u1);
+        u1.follow(u2);
 
         userRepository.save(u2);
     }
@@ -287,6 +286,5 @@ class UserRepositoryTests {
         // following
         // u2가 구독중인 회원 : 0
         assertThat(u2.getFollowings().size()).isEqualTo(0);
-
     }
 }
