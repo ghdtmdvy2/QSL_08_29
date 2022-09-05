@@ -296,4 +296,13 @@ class UserRepositoryTests {
         SiteUser u2 = userRepository.getQslUser(2L);
         u1.removeInterestKeywordContent("농구");
     }
+
+    @Test
+    @DisplayName("u8이 팔로우한 회원들의 관심사")
+    void t17() {
+        SiteUser u8 = userRepository.getQslUser(8L);
+        List<String> keywordContents = userRepository.getByInterestKeywordContents_byFollowingsOf(u8);
+
+        assertThat(keywordContents.size()).isEqualTo(3);
+    }
 }
